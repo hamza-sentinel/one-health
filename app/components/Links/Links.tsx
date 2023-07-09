@@ -89,6 +89,7 @@ const Links = () => {
           </article>
         ))}
       </div>
+      <hr className="h-1 rounded-lg my-6 bg-gray-300 border-0 mx-20" />
     </section>
   );
 }
