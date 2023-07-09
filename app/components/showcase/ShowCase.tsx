@@ -24,7 +24,7 @@ export default function ShowCase() {
             {cards.map(
                 (card, index) => (<DisplayCard key={index} {...card} />)
             )}
-            <hr className="my-3" />
+            <hr className="h-1 rounded-lg my-3 bg-gray-300 border-0 mx-20" />
         </section>
     )
 }
