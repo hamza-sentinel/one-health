@@ -1,4 +1,4 @@
-import Button from "../Button";
+import Button from "../utils/Button";
 import {Input} from "@mui/base"
 import { FaSearch } from 'react-icons/fa'
 

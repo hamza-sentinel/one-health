@@ -12,7 +12,7 @@ export default function Header() {
 
   return (
     <div className="bg-white">
-      <header className="flex items-center justify-between px-6 py-3 max-w-7xl mx-auto">
+      <header className="flex items-center justify-between px-6 py-3 container">
         <Logo />
         <Hamburger
           onClick={() => setShowMenu(() => !showMenu)}
