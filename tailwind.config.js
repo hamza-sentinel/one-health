@@ -23,7 +23,18 @@ module.exports = {
       },
       height: {
         screen: "100vh",
-      }
+      },
+      colors: {
+        primary: "#48C8F2",
+        primaryLight: "#7AD7F6",
+        primaryDark: "#1ABAEF",
+        secondary: "#D45558",
+        secondaryLight: "#DE7D7F",
+        secondaryDark: "#C33135",
+        accent: "#147D4E",
+        accentLight: "#1BA768",
+        accentDark: "#0D4F31",
+      },
     },
   },
   plugins: [],

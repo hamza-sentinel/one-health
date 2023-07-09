@@ -13,7 +13,7 @@ function SearchBox({ className, inputClass }: { className?: string; inputClass?:
           },
         }}
       />
-      <Button className="w-fit bg-emerald-600 px-4 py-2 rounded-r-md" type="submit">
+      <Button className="w-fit px-4 py-2 rounded-r-md text-white" type="submit">
         <FaSearch />
       </Button>
     </form>

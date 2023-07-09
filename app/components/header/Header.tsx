@@ -21,7 +21,7 @@ export default function Header() {
         />
         <FloatingMenu isVisible={showMenu} className="sm:hidden" />
         <SearchBox className="hidden sm:flex" inputClass="bg-gray-200" />
-        <Menu direction="row" className="hidden sm:flex gap-4" linkClasses="text-gray-800 font-semibold" />
+        <Menu direction="row" className="hidden sm:flex gap-3" linkClasses="text-gray-800" />
       </header>
     </div>
   );

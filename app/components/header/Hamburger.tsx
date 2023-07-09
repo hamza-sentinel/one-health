@@ -13,7 +13,7 @@ function Hamburger({
   return (
     <button onClick={onClick} className={`z-50 ${className}`}>
       {menuState ? (
-        <FaTimes className="text-2xl" />
+        <FaTimes className="text-2xl text-white" />
       ) : (
         <FaBars className="text-2xl" />
       )}

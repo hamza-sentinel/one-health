@@ -4,7 +4,7 @@ import SearchBox from "./SearchBox";
 const FloatingMenu = ({ isVisible, className }: { isVisible: boolean; className?: string }) => {
   return (
     <nav
-      className={`fixed w-screen h-screen bg-cyan-400 top-0 flex flex-col items-center transition-all duration-500 p-4 mx-auto ${className} ${
+      className={`fixed w-screen h-screen bg-accentDark top-0 flex flex-col items-center transition-all duration-500 p-4 mx-auto ${className} ${
         isVisible ? "left-0" : "left-full"
       }`}
     >

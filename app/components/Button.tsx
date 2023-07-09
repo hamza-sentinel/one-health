@@ -12,7 +12,7 @@ export default function Button({
 }) {
   return (
     <MUIButton
-      className={className + " w-fit bg-emerald-600 px-4 py-2 active:bg-emerald-700 hover:bg-emerald-500"}
+      className={className + " w-fit bg-primary px-4 py-2 active:bg-primaryDark hover:bg-primaryLight"}
       type={type}
     >
       {children}
