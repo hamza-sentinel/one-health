@@ -20,7 +20,7 @@ export default function ShowCase() {
     ]
 
     return (
-        <section className="container sm:px-4">
+        <section className="container sm:px-8">
             {cards.map(
                 (card, index) => (<DisplayCard key={index} {...card} />)
             )}

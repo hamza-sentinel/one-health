@@ -10,7 +10,7 @@ const DisplayCard = ({
     image: string;
 }) => {
   return (
-    <article className="display-card flex flex-col justify-center w-full h-full py-4 gap-4 sm:flex-row sm:gap-x-6 sm:items-center">
+    <article className="display-card flex flex-col justify-center w-full h-full py-4 gap-4 sm:flex-row sm:gap-x-6 sm:items-center sm:mb-8">
         <Image src={image} alt={title} className="w-full object-cover rounded-md" width={640} height={427} />
         <div className="content">
             <h3 className="text-4xl mb-3">{title}</h3>
