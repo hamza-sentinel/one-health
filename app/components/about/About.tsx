@@ -1,8 +1,11 @@
 import Image from "next/image";
 
-function CEOSaying() {
+function About() {
   return (
-    <section className="container flex justify-center flex-col mt-6 sm:flex-row sm:gap-8 sm:items-center">
+    <section
+      id="about"
+      className="container flex justify-center flex-col mt-6 sm:flex-row sm:gap-8 sm:items-center"
+    >
       <Image
         src="/CEO.jpeg"
         alt="CEO"
@@ -58,4 +61,4 @@ function CEOSaying() {
   );
 }
 
-export default CEOSaying;
+export default About;
