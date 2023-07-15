@@ -7,11 +7,9 @@ import ShowCase from "./components/showcase/ShowCase";
 export default function Home() {
   return (
     <main>
-      <Header />
       <ShowCase />
       <Links />
       <CEOSaying />
-      <Footer />
     </main>
   );
 }

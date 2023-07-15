@@ -12,7 +12,11 @@ function Footer() {
           height={88}
           className="w-28 aspect-auto"
         />
-        <Menu direction="row" className="w-48" />
+        <Menu
+          direction="row"
+          className="w-48 text-sm"
+          linkClasses="text-sm text-gray-600"
+        />
         <hr className="my-4 border-0 bg-gray-100 h-1 rounded-full" />
 
         <div className="flex flex-col md:flex-row justify-between">

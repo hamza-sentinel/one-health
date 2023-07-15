@@ -19,9 +19,17 @@ export default function Header() {
           menuState={isMenuOpen}
           className="sm:hidden"
         />
-        <FloatingMenu isVisible={isMenuOpen} className="sm:hidden" setMenuOpen={setOpenMenu} />
+        <FloatingMenu
+          isVisible={isMenuOpen}
+          className="sm:hidden"
+          setMenuOpen={setOpenMenu}
+        />
         <SearchBox className="hidden sm:flex" inputClass="bg-gray-200" />
-        <Menu direction="row" className="hidden sm:flex gap-3" linkClasses="text-gray-800" />
+        <Menu
+          direction="row"
+          className="hidden sm:flex gap-3"
+          linkClasses="text-gray-800"
+        />
       </header>
     </div>
   );
