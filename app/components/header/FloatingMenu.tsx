@@ -13,7 +13,7 @@ const FloatingMenu = ({
 }) => {
   return (
     <nav
-      className={`fixed w-screen h-screen bg-accentDark top-0 flex flex-col items-center transition-all duration-500 p-4 mx-auto ${className} ${
+      className={`fixed z-10 w-screen h-screen bg-accentDark top-0 flex flex-col items-center transition-all duration-500 p-4 mx-auto ${className} ${
         isVisible ? "left-0" : "left-full"
       }`}
     >

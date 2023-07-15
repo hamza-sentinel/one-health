@@ -1,4 +1,3 @@
-import ReactPlayer from "react-player/lazy";
 import DisplayCard from "./DisplayCard";
 
 export default function ShowCase() {
@@ -33,7 +32,7 @@ export default function ShowCase() {
           muted={true}
           loop={true}
         ></video>
-        <div className="z-10 flex flex-col p-6">
+        <div className="flex flex-col p-6 sm:p-8 md:py-16 lg:py-24">
           <h1 className="text-4xl text-white max-w-xs mb-4 md:max-w-sm lg:max-w-md">
             Molecular Parasitology &amp; One Health Laboratory
           </h1>
