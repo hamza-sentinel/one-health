@@ -18,6 +18,10 @@ module.exports = {
       maxWidth: {
         screen: "100vw",
       },
+      minHeight: {
+        24: "24rem",
+        "thematic-min": "36rem",
+      },
       width: {
         screen: "100vw",
       },
