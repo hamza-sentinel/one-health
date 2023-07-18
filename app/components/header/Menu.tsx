@@ -31,22 +31,30 @@ function Menu({
       </li>
       <li className={`${linkClasses} hover:underline`}>
         {setMenuOpen ? (
-          <Link href="#about" scroll={false} onClick={() => setMenuOpen(false)}>
+          <Link
+            href="/#about"
+            scroll={false}
+            onClick={() => setMenuOpen(false)}
+          >
             About
           </Link>
         ) : (
-          <Link href="#about" scroll={false}>
+          <Link href="/#about" scroll={false}>
             About
           </Link>
         )}
       </li>
       <li className={`${linkClasses} hover:underline`}>
         {setMenuOpen ? (
-          <Link href="#links" scroll={false} onClick={() => setMenuOpen(false)}>
+          <Link
+            href="/#links"
+            scroll={false}
+            onClick={() => setMenuOpen(false)}
+          >
             Links
           </Link>
         ) : (
-          <Link href="#links" scroll={false}>
+          <Link href="/#links" scroll={false}>
             Links
           </Link>
         )}
