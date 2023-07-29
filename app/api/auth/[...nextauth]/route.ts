@@ -1,6 +1,6 @@
 import authAdmin from "@/app/utils/authAdmin";
 import NextAuth from "next-auth";
-import type { AuthOptions } from "next-auth";
+import type { AuthOptions, Awaitable } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
 export const authOptions: AuthOptions = {
@@ -15,6 +15,7 @@ export const authOptions: AuthOptions = {
           placeholder: "********",
         },
       },
+      // @ts-ignore
       async authorize(credentials, req) {
         if (!credentials) return null;
         const res = await authAdmin(credentials.username, credentials.password);
@@ -27,6 +28,7 @@ export const authOptions: AuthOptions = {
     maxAge: 12 * 60 * 60, // 12 hours expiry date
   },
   callbacks: {
+    // @ts-ignore
     async signIn(user, account, profile) {
       return true;
     },
