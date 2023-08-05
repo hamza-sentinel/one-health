@@ -4,6 +4,34 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
   await connectToMongoDB();
+  // console.log("international:", request.url.split("?").slice(1));
   const internationalCollaborator = await InternationalCollaborator.find();
   return NextResponse.json(internationalCollaborator);
+}
+
+export async function POST(request: NextRequest) {
+  const body = await request.json();
+  const { name, university, telephone, email, image } = body;
+
+  if (!name || !university || !telephone || !email || !image) {
+    return NextResponse.json({
+      status: 400,
+      error: "Missing required fields",
+    });
+  }
+
+  try {
+    await connectToMongoDB();
+    const internationalCollaborator = await InternationalCollaborator.create(
+      body
+    );
+    internationalCollaborator.save();
+
+    return NextResponse.json({
+      status: 201,
+      message: "International collaborator created successfully",
+    });
+  } catch (error) {
+    return NextResponse.json({ error });
+  }
 }

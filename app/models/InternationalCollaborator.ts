@@ -6,6 +6,7 @@ const internationalCollaboratorSchema = new Schema(
     university: String,
     telephone: String,
     email: String,
+    image: String,
   },
   { timestamps: true }
 );
