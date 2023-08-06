@@ -1,15 +1,13 @@
-import Button from "@/app/components/utils/Button";
 import Image from "next/image";
-import Link from "next/link";
 import CustomFormModal from "../../components/CustomFormModal";
 import { useState } from "react";
 
 const Collaborator = ({
-  collaborator: { name, university, telephone, email, image, _id },
+  item: { name, university, telephone, email, image, _id },
   onEdit,
   onDelete,
 }: {
-  collaborator: {
+  item: {
     name: string;
     university: string;
     telephone: string;

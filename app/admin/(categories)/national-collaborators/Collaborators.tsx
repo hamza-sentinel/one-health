@@ -11,18 +11,8 @@ import Paper from "@mui/material/Paper";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { set } from "mongoose";
-import { convertToBase64 } from "../../utils";
+import { convertToBase64, getData } from "../../utils";
 import { FaSpinner } from "react-icons/fa";
-
-async function getInternationalCollaborators(url: string) {
-  const response = await fetch(url + "/api/national-collaborators", {
-    next: {
-      revalidate: 60, // 1 minute
-    },
-  });
-  const collaborators = await response.json();
-  return collaborators;
-}
 
 function Collaborators({
   url,
@@ -41,7 +31,7 @@ function Collaborators({
       setFieldLoading(true);
     }
 
-    getInternationalCollaborators(url).then((collaborators) => {
+    getData(url + "/api/national-collaborators").then((collaborators) => {
       setCollaborators(collaborators);
       setIsLoading(false);
       setFieldLoading(false);
@@ -122,7 +112,7 @@ function Collaborators({
       return toast.error(json.message);
     }
 
-    toast.success("Collaborator added successfully");
+    toast.success("Collaborator edited successfully");
     form.reset();
     setTableChanged(!tableChanged);
   }
@@ -159,7 +149,7 @@ function Collaborators({
             ) : (
               collaborators.map((collaborator: any, index: number) => (
                 <Collaborator
-                  collaborator={collaborator}
+                  item={collaborator}
                   key={collaborator._id}
                   onDelete={handleDelete}
                   onEdit={handleEdit}

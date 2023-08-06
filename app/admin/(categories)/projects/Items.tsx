@@ -1,8 +1,7 @@
 "use client";
-import Collaborator from "./Collaborator";
+import Item from "./Item";
 import { useEffect, useState } from "react";
 import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
@@ -10,18 +9,11 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { set } from "mongoose";
-import { convertToBase64, getData } from "../../utils";
+import { getData } from "../../utils";
 import { FaSpinner } from "react-icons/fa";
 
-function Collaborators({
-  url,
-  itemAdded,
-}: {
-  url: string;
-  itemAdded: boolean;
-}) {
-  const [collaborators, setCollaborators] = useState([]);
+function Items({ url, itemAdded }: { url: string; itemAdded: boolean }) {
+  const [items, setItems] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [tableChanged, setTableChanged] = useState(false);
   const [fieldLoading, setFieldLoading] = useState(false);
@@ -31,8 +23,8 @@ function Collaborators({
       setFieldLoading(true);
     }
 
-    getData(url + "/api/international-collaborators").then((collaborators) => {
-      setCollaborators(collaborators);
+    getData(url).then((items) => {
+      setItems(items);
       setIsLoading(false);
       setFieldLoading(false);
     });
@@ -41,13 +33,10 @@ function Collaborators({
 
   async function handleDelete(e: any, id: string) {
     e.preventDefault();
-    if (!confirm("Are you sure you want to delete this collaborator?")) return;
-    const response = await fetch(
-      url + "/api/international-collaborators/" + id,
-      {
-        method: "DELETE",
-      }
-    );
+    if (!confirm("Are you sure you want to delete this?")) return;
+    const response = await fetch(url + id, {
+      method: "DELETE",
+    });
     const data = await response.json();
 
     if (data.error) {
@@ -57,7 +46,7 @@ function Collaborators({
     toast.success(data.message);
     setTableChanged(!tableChanged);
 
-    setCollaborators(() => collaborators.filter((c: any) => c._id !== id));
+    setItems(() => items.filter((c: any) => c._id !== id));
   }
 
   async function handleEdit(e: any, id: string) {
@@ -66,43 +55,33 @@ function Collaborators({
     const form = e.target;
     const data = new FormData(form);
 
-    const name = data.get("name") as string;
-    const university = data.get("university") as string;
-    const telephone = data.get("telephone") as string;
-    const email = data.get("email") as string;
-    let image = data.get("image") as any;
+    const year = data.get("year");
+    const description = data.get("description");
+    const budget = data.get("budget");
+    const status = data.get("status");
 
-    if (!name || !university || !telephone || !email) {
-      return toast.error("Please fill all the required fields");
+    const yearTrimmed = year?.toString().trim();
+    const descriptionTrimmed = description?.toString().trim();
+    const budgetTrimmed = budget?.toString().trim();
+    const statusTrimmed = status?.toString().trim();
+
+    if (
+      yearTrimmed === "" ||
+      descriptionTrimmed === "" ||
+      budgetTrimmed === "" ||
+      statusTrimmed === ""
+    ) {
+      return toast.error("Please fill all the fields");
     }
 
-    const isImageEdited = image.size !== 0;
-    let requestBody;
+    const requestBody = {
+      year: yearTrimmed,
+      description: descriptionTrimmed,
+      budget: budgetTrimmed,
+      status: statusTrimmed,
+    };
 
-    if (isImageEdited) {
-      if (image.size > 1000000)
-        return toast.error(
-          "The image is too big, please select an image with less than 1MB"
-        );
-
-      image = await convertToBase64(image);
-      requestBody = {
-        name,
-        university,
-        telephone,
-        email,
-        image,
-      };
-    } else {
-      requestBody = {
-        name,
-        university,
-        telephone,
-        email,
-      };
-    }
-
-    const response = await fetch("/api/national-collaborators/" + id, {
+    const response = await fetch(url + id, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -115,7 +94,7 @@ function Collaborators({
       return toast.error(json.message);
     }
 
-    toast.success("Collaborator edited successfully");
+    toast.success("Project edited successfully");
     form.reset();
     setTableChanged(!tableChanged);
   }
@@ -126,12 +105,11 @@ function Collaborators({
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
-              <th className="px-4 py-2">Image</th>
-              <th className="px-4 py-2">Name</th>
-              <th className="px-4 py-2">University</th>
-              <th className="px-4 py-2">Telephone</th>
-              <th className="px-4 py-2">Email</th>
-              <th className="px-4 py-2">Actions</th>
+              <TableCell>Year</TableCell>
+              <TableCell>Description</TableCell>
+              <TableCell>Budget</TableCell>
+              <TableCell>Status</TableCell>
+              <TableCell>Actions</TableCell>
             </TableRow>
           </TableHead>
           <tbody>
@@ -143,17 +121,17 @@ function Collaborators({
                   </span>
                 </td>
               </tr>
-            ) : collaborators.length === 0 ? (
+            ) : items.length === 0 ? (
               <tr>
                 <td colSpan={6} className="text-center text-2xl my-4">
-                  There are no collaborators
+                  There are no projects
                 </td>
               </tr>
             ) : (
-              collaborators.map((collaborator: any, index: number) => (
-                <Collaborator
-                  item={collaborator}
-                  key={collaborator._id}
+              items.map((project: any, index: number) => (
+                <Item
+                  item={project}
+                  key={project._id}
                   onDelete={handleDelete}
                   onEdit={handleEdit}
                 />
@@ -176,4 +154,4 @@ function Collaborators({
   );
 }
 
-export default Collaborators;
+export default Items;

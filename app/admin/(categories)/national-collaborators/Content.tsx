@@ -1,20 +1,27 @@
 "use client";
+
+import { useState } from "react";
+import Collaborators from "./Collaborators";
 import { Button } from "@mui/base";
 import { FaPlus } from "react-icons/fa";
-import { useState } from "react";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import CustomModal from "../../components/CustomFormModal";
+import { ToastContainer, toast } from "react-toastify";
+import Field from "../../@types/Field";
 import { convertToBase64 } from "../../utils";
 
-function AddCollaborator({ onAdded }: { onAdded: () => void }) {
+const Content = ({
+  url,
+  title,
+  fields,
+}: {
+  url: string;
+  title: string;
+  fields: Field[];
+}) => {
+  const [itemAdded, setItemAdded] = useState(false);
   const [open, setOpen] = useState(false);
 
-  async function handleSubmit(event: any) {
-    event.preventDefault();
-    const form = event.target;
-    const data = new FormData(form);
-
+  async function handleAdded(data: FormData) {
     const name = data.get("name") as string;
     const university = data.get("university") as string;
     const telephone = data.get("telephone") as string;
@@ -55,57 +62,32 @@ function AddCollaborator({ onAdded }: { onAdded: () => void }) {
     }
 
     toast.success("Collaborator added successfully");
-    form.reset();
-    setOpen(false);
-    onAdded();
   }
 
-  const fields = [
-    {
-      name: "name",
-      label: "Name",
-      type: "text",
-      placeholder: "John Doe",
-      required: true,
-    },
-    {
-      name: "university",
-      label: "University",
-      type: "text",
-      placeholder: "University of the Philippines",
-      required: true,
-    },
-    {
-      name: "telephone",
-      label: "Telephone",
-      type: "text",
-      placeholder: "09123456789",
-      required: true,
-    },
-    {
-      name: "email",
-      label: "Email",
-      type: "email",
-      placeholder: "@gmail.com",
-      required: true,
-    },
-    {
-      name: "image",
-      label: "Image",
-      type: "file",
-      required: true,
-      accept: ".jpeg, .jpg, .png",
-    },
-  ];
+  async function handleSubmit(event: any) {
+    event.preventDefault();
+    const form = event.target;
+    const data = new FormData(form);
+
+    await handleAdded(data);
+
+    form.reset();
+    setOpen(false);
+    setItemAdded(!itemAdded);
+  }
 
   return (
-    <>
-      <Button
-        onClick={() => setOpen(true)}
-        className="flex items-center gap-2 px-4 py-2 text-white bg-blue-500 rounded-md hover:bg-blue-600"
-      >
-        Add Collaborator <FaPlus />
-      </Button>
+    <div className="w-full">
+      <div className="flex justify-between items-center flex-wrap mb-10">
+        <h1 className="text-3xl font-bold py-4">{title}</h1>
+        <Button
+          onClick={() => setOpen(true)}
+          className="flex items-center gap-2 px-4 py-2 text-white bg-blue-500 rounded-md hover:bg-blue-600"
+        >
+          Add Collaborator <FaPlus />
+        </Button>
+      </div>
+      <Collaborators url={url} itemAdded={itemAdded} />
       <CustomModal
         open={open}
         setOpen={setOpen}
@@ -114,8 +96,8 @@ function AddCollaborator({ onAdded }: { onAdded: () => void }) {
         fields={fields}
       />
       <ToastContainer />
-    </>
+    </div>
   );
-}
+};
 
-export default AddCollaborator;
+export default Content;

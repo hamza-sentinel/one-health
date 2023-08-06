@@ -1,16 +1,7 @@
 import { Modal } from "@mui/base";
 import { useRef, useState } from "react";
 import { FaSpinner, FaTimes } from "react-icons/fa";
-
-interface Field {
-  name: string;
-  type: string;
-  required: boolean;
-  label: string;
-  accept?: string;
-  value?: string | number | readonly string[] | undefined;
-  placeholder?: string;
-}
+import Field from "../../@types/Field";
 
 const CustomModal = ({
   open,
