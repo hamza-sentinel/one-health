@@ -51,7 +51,9 @@ const CustomModal = ({
   async function beforeSubmit(event: any) {
     setAdding(true);
     await onSubmit(event);
+    event.target.reset();
     setAdding(false);
+    setOpen(false);
   }
 
   return (

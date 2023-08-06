@@ -1,4 +1,4 @@
-import Collaborator from "@/app/components/Collaborator/Collaborator";
+import Collaborator from "@/app/components/Collaborator";
 import Image from "next/image";
 
 function InternationCollaborators() {

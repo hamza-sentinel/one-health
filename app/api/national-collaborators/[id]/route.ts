@@ -1,4 +1,4 @@
-import InternationalCollaborator from "@/app/models/InternationalCollaborator";
+import NationalCollaborator from "@/app/models/NationalCollaborator";
 import connectToMongoDB from "@/app/utils/mongodb";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -11,8 +11,7 @@ export async function DELETE(
   await connectToMongoDB();
   try {
     if (
-      (await InternationalCollaborator.deleteOne({ _id: id })).deletedCount ===
-      0
+      (await NationalCollaborator.deleteOne({ _id: id })).deletedCount === 0
     ) {
       throw new Error();
     }
@@ -20,13 +19,13 @@ export async function DELETE(
     return NextResponse.json({
       error: true,
       status: 404,
-      message: "International collaborator not found",
+      message: "National collaborator not found",
     });
   }
 
   return NextResponse.json({
     status: 200,
-    message: "International collaborator deleted successfully",
+    message: "National collaborator deleted successfully",
   });
 }
 
@@ -41,7 +40,7 @@ export async function PATCH(
     return NextResponse.json({
       error: true,
       status: 400,
-      message: "Invalid international collaborator id",
+      message: "Invalid National collaborator id",
     });
 
   const body = await request.json();
@@ -50,7 +49,7 @@ export async function PATCH(
   try {
     console.log();
     if (
-      (await InternationalCollaborator.findOneAndUpdate(
+      (await NationalCollaborator.findOneAndUpdate(
         { _id: id },
         { $set: body }
       )) === null
@@ -61,12 +60,12 @@ export async function PATCH(
     return NextResponse.json({
       error: true,
       status: 404,
-      message: "International collaborator not found",
+      message: "National collaborator not found",
     });
   }
 
   return NextResponse.json({
     status: 200,
-    message: "International collaborator updated successfully",
+    message: "National collaborator updated successfully",
   });
 }

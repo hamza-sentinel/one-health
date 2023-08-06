@@ -1,4 +1,4 @@
-import Collaborator from "@/app/components/Collaborator/Collaborator";
+import Collaborator from "@/app/components/Collaborator";
 import React from "react";
 
 function NationalCollaborators() {
@@ -34,9 +34,9 @@ function NationalCollaborators() {
     <section>
       <div className="container">
         <h1 className="text-4xl text-gray-900 font-bold mt-2">
-          International Collaborators
+          National Collaborators
         </h1>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mt-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-6">
           {collaborators.map((collaborator, index) => (
             <Collaborator collaborator={collaborator} key={index} />
           ))}

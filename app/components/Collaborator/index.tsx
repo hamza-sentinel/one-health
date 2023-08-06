@@ -14,33 +14,24 @@ function Collaborator({
   };
 }) {
   return (
-    <div className="flex flex-col items-center space-y-2">
+    <div className="flex flex-col items-center gap-y-4 mb-4 bg-white p-4 border rounded-md shadow-md">
       <Image
         src={collaborator.image}
         alt={collaborator.name}
         width={160}
         height={160}
-        className="w-full h-96 object-cover rounded-md sm:rounded-full sm:w-64 sm:h-64"
+        className="w-full object-contain rounded"
       />
       <div className="flex flex-col space-y-2">
-        <h3 className="text-xl text-gray-900 font-bold">{collaborator.name}</h3>
+        <h3 className="text-2xl text-gray-900 font-bold mb-2">
+          {collaborator.name}
+        </h3>
         <p className="text-gray-600">{collaborator.university}</p>
-
-        {collaborator.telephone && (
-          <p className="text-gray-600">Telephone: {collaborator.telephone}</p>
-        )}
-        {collaborator.fax && (
-          <p className="text-gray-600">Fax: {collaborator.fax}</p>
-        )}
-        {collaborator.cell && (
-          <p className="text-gray-600">Cellphone: {collaborator.cell}</p>
-        )}
-        {collaborator.email && (
-          <p className="text-gray-600">
-            email:{" "}
-            <a href={`mailto:${collaborator.email}`}>{collaborator.email}</a>
-          </p>
-        )}
+        <p className="text-gray-600">Telephone: {collaborator.telephone}</p>
+        <p className="text-gray-600">
+          email:{" "}
+          <a href={`mailto:${collaborator.email}`}>{collaborator.email}</a>
+        </p>
       </div>
     </div>
   );

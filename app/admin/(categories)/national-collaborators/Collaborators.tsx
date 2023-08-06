@@ -15,7 +15,7 @@ import { convertToBase64 } from "../../utils";
 import { FaSpinner } from "react-icons/fa";
 
 async function getInternationalCollaborators(url: string) {
-  const response = await fetch(url + "/api/international-collaborators", {
+  const response = await fetch(url + "/api/national-collaborators", {
     next: {
       revalidate: 60, // 1 minute
     },
@@ -52,12 +52,9 @@ function Collaborators({
   async function handleDelete(e: any, id: string) {
     e.preventDefault();
     if (!confirm("Are you sure you want to delete this collaborator?")) return;
-    const response = await fetch(
-      url + "/api/international-collaborators/" + id,
-      {
-        method: "DELETE",
-      }
-    );
+    const response = await fetch(url + "/api/national-collaborators/" + id, {
+      method: "DELETE",
+    });
     const data = await response.json();
 
     if (data.error) {
@@ -112,7 +109,7 @@ function Collaborators({
       };
     }
 
-    const response = await fetch("/api/international-collaborators/" + id, {
+    const response = await fetch("/api/national-collaborators/" + id, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
