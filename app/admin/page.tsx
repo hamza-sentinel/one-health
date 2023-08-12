@@ -25,12 +25,12 @@ function Admin() {
             >
               National Collaborators <FaExternalLinkAlt />
             </Link>
-            <Link
+            {/* <Link
               href="/admin/thematics"
               className="flex items-center gap-2 px-4 py-2 text-white bg-blue-500 rounded-md hover:bg-blue-600"
             >
               Thematics <FaExternalLinkAlt />
-            </Link>
+            </Link> */}
             <Link
               href="/admin/projects"
               className="flex items-center gap-2 px-4 py-2 text-white bg-blue-500 rounded-md hover:bg-blue-600"
