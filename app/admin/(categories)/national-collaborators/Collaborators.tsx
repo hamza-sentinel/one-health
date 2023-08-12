@@ -70,18 +70,25 @@ function Collaborators({
     let image = data.get("image") as any;
 
     if (!name || !university || !telephone || !email) {
-      return toast.error("Please fill all the required fields");
+      toast.error("Please fill all the required fields");
+      return false;
     }
 
     const isImageEdited = image.size !== 0;
     let requestBody;
 
     if (isImageEdited) {
-      if (image.size > 1000000)
-        return toast.error(
+      if (image.size > 1000000) {
+        toast.error(
           "The image is too big, please select an image with less than 1MB"
         );
+        return false;
+      }
 
+      if (!image.type.includes("image")) {
+        toast.error("Please select an image for the collaborator");
+        return false;
+      }
       image = await convertToBase64(image);
       requestBody = {
         name,
@@ -109,12 +116,14 @@ function Collaborators({
     const json = await response.json();
 
     if (json.error) {
-      return toast.error(json.message);
+      toast.error(json.message);
+      return false;
     }
 
     toast.success("Collaborator edited successfully");
     form.reset();
     setTableChanged(!tableChanged);
+    return true;
   }
 
   return (

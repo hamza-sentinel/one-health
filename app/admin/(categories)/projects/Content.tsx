@@ -38,7 +38,8 @@ const Content = ({
       budgetTrimmed === "" ||
       statusTrimmed === ""
     ) {
-      return toast.error("Please fill all the fields");
+      toast.error("Please fill all the fields");
+      return false;
     }
 
     const response = await fetch(url, {
@@ -56,10 +57,12 @@ const Content = ({
     const json = await response.json();
 
     if (json.error) {
-      return toast.error(json.message);
+      toast.error(json.message);
+      return false;
     }
 
     toast.success(json.message);
+    return true;
   }
 
   async function handleSubmit(event: any) {
@@ -67,11 +70,13 @@ const Content = ({
     const form = event.target;
     const data = new FormData(form);
 
-    await handleAdded(data);
+    const success = await handleAdded(data);
+    if (!success) return false;
 
     form.reset();
     setOpen(false);
     setItemAdded(!itemAdded);
+    return true;
   }
 
   return (
@@ -93,7 +98,6 @@ const Content = ({
         title="Add Project"
         fields={fields}
       />
-      <ToastContainer />
     </div>
   );
 };

@@ -2,6 +2,7 @@ import { Modal } from "@mui/base";
 import { useRef, useState } from "react";
 import { FaSpinner, FaTimes } from "react-icons/fa";
 import Field from "../../@types/Field";
+import Image from "next/image";
 
 const CustomModal = ({
   open,
@@ -13,7 +14,7 @@ const CustomModal = ({
 }: {
   open: boolean;
   setOpen: (open: boolean) => void;
-  onSubmit: (event: any) => void;
+  onSubmit: (event: any) => any;
   title: string;
   fields: Field[];
   buttonText?: string;
@@ -41,7 +42,12 @@ const CustomModal = ({
 
   async function beforeSubmit(event: any) {
     setAdding(true);
-    await onSubmit(event);
+    const success = await onSubmit(event);
+    if (!success) {
+      setAdding(false);
+      return;
+    }
+
     event.target.reset();
     setAdding(false);
     setOpen(false);
@@ -66,6 +72,15 @@ const CustomModal = ({
           <form className="flex flex-col gap-4" onSubmit={beforeSubmit}>
             {fields.map((field) => (
               <div key={field.name}>
+                {field.image && (
+                  <Image
+                    src={field.image}
+                    width={50}
+                    height={50}
+                    alt="Image"
+                    className="w-32 h-full"
+                  />
+                )}
                 <label htmlFor={field.name}>
                   {field.label}{" "}
                   {field.required && <span className="text-rose-600">*</span>}
@@ -74,6 +89,7 @@ const CustomModal = ({
                   type={field.type}
                   name={field.name}
                   id={field.name}
+                  multiple={field.multiple}
                   className="border border-gray-300 rounded-md p-2 w-full"
                   required={field.required}
                   accept={field.accept}

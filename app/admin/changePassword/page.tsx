@@ -1,4 +1,5 @@
 "use client";
+import Header from "@/app/admin/components/Header";
 import { redirect } from "next/navigation";
 import React from "react";
 import { ToastContainer, toast } from "react-toastify";
@@ -68,6 +69,7 @@ function ChangePassword() {
 
   return (
     <>
+      <Header />
       <section className="container">
         <h1 className="text-4xl font-bold py-4 max-w-md mx-auto">
           Change Password

@@ -29,16 +29,26 @@ const Content = ({
     let image = data.get("image") as any;
 
     if (!name || !university || !telephone || !email) {
-      return toast.error("Please fill all the fields");
+      toast.error("Please fill all the fields");
+      return false;
     }
 
-    if (image.size === 0)
-      return toast.error("Please select an image for the collaborator");
+    if (image.size === 0) {
+      toast.error("Please select an image for the collaborator");
+      return false;
+    }
 
-    if (image.size > 1000000)
-      return toast.error(
+    if (!image.type.includes("image")) {
+      toast.error("Please select an image for the collaborator");
+      return false;
+    }
+
+    if (image.size > 1000000) {
+      toast.error(
         "The image is too big, please select an image with less than 1MB"
       );
+      return false;
+    }
 
     image = await convertToBase64(image);
 
@@ -58,10 +68,12 @@ const Content = ({
     const json = await response.json();
 
     if (json.error) {
-      return toast.error(json.message);
+      toast.error(json.message);
+      return false;
     }
 
     toast.success("Collaborator added successfully");
+    return true;
   }
 
   async function handleSubmit(event: any) {
@@ -69,11 +81,13 @@ const Content = ({
     const form = event.target;
     const data = new FormData(form);
 
-    await handleAdded(data);
+    const success = await handleAdded(data);
+    if (!success) return false;
 
     form.reset();
     setOpen(false);
     setItemAdded(!itemAdded);
+    return true;
   }
 
   return (
@@ -95,7 +109,6 @@ const Content = ({
         title="Add Collaborator"
         fields={fields}
       />
-      <ToastContainer />
     </div>
   );
 };

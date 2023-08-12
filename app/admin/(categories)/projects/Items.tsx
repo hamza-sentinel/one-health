@@ -71,7 +71,8 @@ function Items({ url, itemAdded }: { url: string; itemAdded: boolean }) {
       budgetTrimmed === "" ||
       statusTrimmed === ""
     ) {
-      return toast.error("Please fill all the fields");
+      toast.error("Please fill all the fields");
+      return false;
     }
 
     const requestBody = {
@@ -91,12 +92,14 @@ function Items({ url, itemAdded }: { url: string; itemAdded: boolean }) {
     const json = await response.json();
 
     if (json.error) {
-      return toast.error(json.message);
+      toast.error(json.message);
+      return false;
     }
 
     toast.success("Project edited successfully");
     form.reset();
     setTableChanged(!tableChanged);
+    return true;
   }
 
   return (

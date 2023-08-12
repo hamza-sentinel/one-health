@@ -43,16 +43,11 @@ async function NationalCollaborators() {
   ];
 
   return (
-    <>
-      <Header />
-      <section className="container">
-        <Content
-          url={process.env.URL!}
-          title="National Collaborators"
-          fields={fields}
-        />
-      </section>
-    </>
+    <Content
+      url={process.env.URL!}
+      title="National Collaborators"
+      fields={fields}
+    />
   );
 }
 

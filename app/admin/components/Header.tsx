@@ -12,8 +12,37 @@ function Header() {
         <div>OneHealth</div>
 
         <div className="relative">
+          <div className="hidden md:block">
+            <ul className="flex">
+              <li>
+                <Link
+                  className="p-2 text-gray-800 border-b-transparent border-b-2 transition-colors hover:border-gray-700"
+                  href="/admin"
+                >
+                  Dashboard
+                </Link>
+              </li>
+              <li>
+                <Link
+                  className="p-2 text-gray-800 border-b-transparent border-b-2 transition-colors hover:border-gray-700"
+                  href="/admin/changePassword"
+                >
+                  Change Password
+                </Link>
+              </li>
+              <li>
+                <Link
+                  className="p-2 text-gray-800 border-b-transparent border-b-2 transition-colors hover:border-gray-700"
+                  href="/api/auth/signout"
+                >
+                  Sign out
+                </Link>
+              </li>
+            </ul>
+          </div>
+
           <button
-            className="flex items-center space-x-2 p-2 text-sm font-medium text-gray-700 bg-white rounded-md hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100"
+            className="md:hidden flex items-center space-x-2 p-2 text-sm font-medium text-gray-700 bg-white rounded-md hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100"
             onClick={() => setIsDropDownVisible(!isDropDownVisible)}
           >
             <span className="inline-flex items-center">
@@ -21,7 +50,7 @@ function Header() {
             </span>
           </button>
           <ul
-            className={`absolute ${
+            className={`md:hidden absolute ${
               !isDropDownVisible && "hidden"
             } right-0 w-32 py-2 mt-2 bg-white rounded-md shadow-xl`}
           >

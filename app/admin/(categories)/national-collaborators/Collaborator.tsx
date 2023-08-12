@@ -58,6 +58,7 @@ const Collaborator = ({
       type: "file",
       required: false,
       accept: ".jpeg, .jpg, .png",
+      image,
     },
   ];
 

@@ -6,4 +6,6 @@ export default interface Field {
   accept?: string;
   value?: string | number | readonly string[] | undefined;
   placeholder?: string;
+  image?: string;
+  multiple?: boolean;
 }

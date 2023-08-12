@@ -33,14 +33,7 @@ async function Projects() {
 
   const url = process.env.URL! + "/api/projects/";
 
-  return (
-    <>
-      <Header />
-      <section className="container">
-        <Content url={url} title="Projects" fields={fields} />
-      </section>
-    </>
-  );
+  return <Content url={url} title="Projects" fields={fields} />;
 }
 
 export default Projects;
