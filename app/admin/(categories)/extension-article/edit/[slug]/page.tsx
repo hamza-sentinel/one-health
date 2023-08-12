@@ -342,7 +342,7 @@ function AddExtensionArticle({ params }: { params: { slug: string } }) {
           disabled={isAddingArticle}
           className={`ml-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition inline-flex items-center gap-2 disabled:opacity-75 disabled:hover:bg-blue-500`}
         >
-          Add article
+          Edit article
           {isAddingArticle && (
             <FaSpinner className="inline-block animate-spin" />
           )}
