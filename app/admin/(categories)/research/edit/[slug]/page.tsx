@@ -8,7 +8,7 @@ import { FaSignLanguage, FaSpinner } from "react-icons/fa";
 import { convertToBase64 } from "@/app/utils";
 import { redirect, useRouter } from "next/navigation";
 
-function AddExtensionArticle({ params }: { params: { slug: string } }) {
+function AddResearch({ params }: { params: { slug: string } }) {
   const { slug } = params;
 
   const preview = useRef(null);
@@ -19,37 +19,38 @@ function AddExtensionArticle({ params }: { params: { slug: string } }) {
 
   const [title, setTitle] = useState("");
   const [inputSlug, setInputSlug] = useState("");
-  const [article, setArticle] = useState<any>(null);
+  const [research, setResearch] = useState<any>(null);
 
   const router = useRouter();
 
   useEffect(() => {
     if (slug) {
-      fetch(`/api/extension-article/${slug}`)
+      console.log(slug);
+      fetch(`/api/research/${slug}`)
         .then((res) => res.json())
         .then((data) => {
-          setArticle(data);
+          setResearch(data);
         });
     }
   }, [slug]);
 
   useEffect(() => {
-    if (!article) return;
+    if (!research) return;
 
-    const { title, slug, content } = article;
+    const { title, slug, content } = research;
     // @ts-ignore
     titleRef.current!.value = title;
     // @ts-ignore
     slugRef.current!.value = slug;
 
     setHtml(content);
-  }, [article]);
+  }, [research]);
 
   const [html, setHtml] = useState("");
   const [messages, setMessages] = useState<any>();
-  const [isAddingArticle, setIsAddingArticle] = useState(false);
+  const [isAdding, setIsAdding] = useState(false);
 
-  async function previewArticle() {
+  async function previewDocument() {
     const fileElement = fileRef.current! as HTMLInputElement;
 
     if (fileElement.files?.length === 0) {
@@ -61,8 +62,8 @@ function AddExtensionArticle({ params }: { params: { slug: string } }) {
     }
 
     const file = fileElement.files![0];
-
-    if (!file.type.includes("document") && !file.type.includes("pdf")) {
+    //  && !file.type.includes("pdf")
+    if (!file.type.includes("document")) {
       fileElement.classList.add("border-red-500");
       toast.error("Please upload a valid file");
       return;
@@ -98,7 +99,7 @@ function AddExtensionArticle({ params }: { params: { slug: string } }) {
   }
 
   async function handlePatch(body: any) {
-    const res = await fetch(`/api/extension-article/${slug}`, {
+    const res = await fetch(`/api/research/${slug}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -110,16 +111,16 @@ function AddExtensionArticle({ params }: { params: { slug: string } }) {
     console.log(dataRes);
 
     if (dataRes.success) {
-      toast.success("Article added successfully");
-      setIsAddingArticle(false);
+      toast.success("Research added successfully");
+      setIsAdding(false);
 
-      router.push("/admin/extension-article");
+      router.push("/admin/research");
     }
 
     if (dataRes.error) {
       toast.error(dataRes.error);
     }
-    setIsAddingArticle(false);
+    setIsAdding(false);
     return false;
   }
 
@@ -194,7 +195,7 @@ function AddExtensionArticle({ params }: { params: { slug: string } }) {
 
     if (hasError) return toast.error("Please fill all the fields");
 
-    setIsAddingArticle(true);
+    setIsAdding(true);
 
     if (!isContentChanged && !isImageChanged) {
       const body = {
@@ -231,7 +232,7 @@ function AddExtensionArticle({ params }: { params: { slug: string } }) {
 
         const imageString = isImageChanged
           ? await convertToBase64(image)
-          : article.image;
+          : research.image;
 
         const body = {
           title,
@@ -251,7 +252,7 @@ function AddExtensionArticle({ params }: { params: { slug: string } }) {
   return (
     <section className="">
       <div className="flex justify-between items-center">
-        <h1 className="text-3xl font-bold mb-8">Edit Extension Article</h1>
+        <h1 className="text-3xl font-bold mb-8">Edit Research</h1>
       </div>
       <form className="w-full" onSubmit={handleSubmit}>
         <div className="flex flex-wrap -mx-3">
@@ -267,7 +268,7 @@ function AddExtensionArticle({ params }: { params: { slug: string } }) {
               id="title"
               type="text"
               name="title"
-              placeholder="e.g. Article about our club"
+              placeholder="title of your Research"
               ref={titleRef}
             />
           </div>
@@ -286,7 +287,7 @@ function AddExtensionArticle({ params }: { params: { slug: string } }) {
               id="slug"
               type="text"
               name="slug"
-              placeholder="e.g. article-about-our-club"
+              placeholder="e.g. title-of-your-research-as-slug"
               ref={slugRef}
             />
           </div>
@@ -334,18 +335,16 @@ function AddExtensionArticle({ params }: { params: { slug: string } }) {
         <button
           className="border border-blue-500 hover:bg-blue-500 hover:text-white font-bold py-2 px-4 rounded transition"
           type="button"
-          onClick={previewArticle}
+          onClick={previewDocument}
         >
           Preview
         </button>
         <button
-          disabled={isAddingArticle}
+          disabled={isAdding}
           className={`ml-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition inline-flex items-center gap-2 disabled:opacity-75 disabled:hover:bg-blue-500`}
         >
-          Edit article
-          {isAddingArticle && (
-            <FaSpinner className="inline-block animate-spin" />
-          )}
+          Edit
+          {isAdding && <FaSpinner className="inline-block animate-spin" />}
         </button>
       </form>
       {html && (
@@ -364,4 +363,4 @@ function AddExtensionArticle({ params }: { params: { slug: string } }) {
   );
 }
 
-export default AddExtensionArticle;
+export default AddResearch;

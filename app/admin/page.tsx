@@ -38,6 +38,12 @@ function Admin() {
               Projects <FaExternalLinkAlt />
             </Link>
             <Link
+              href="/admin/research"
+              className="flex items-center gap-2 px-4 py-2 text-white bg-blue-500 rounded-md hover:bg-blue-600"
+            >
+              Research <FaExternalLinkAlt />
+            </Link>
+            <Link
               href="/admin/extension-article"
               className="flex items-center gap-2 px-4 py-2 text-white bg-blue-500 rounded-md hover:bg-blue-600"
             >

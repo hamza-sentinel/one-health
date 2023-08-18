@@ -5,7 +5,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
 import { useRef, useState } from "react";
 import { FaSignLanguage, FaSpinner } from "react-icons/fa";
-import { convertToBase64 } from "@/app/admin/utils";
+import { convertToBase64 } from "@/app/utils";
 // @ts-ignore
 import { html as parseHTML } from "pdf2html";
 

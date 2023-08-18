@@ -3,51 +3,22 @@
 import mammoth from "mammoth";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { FaSignLanguage, FaSpinner } from "react-icons/fa";
 import { convertToBase64 } from "@/app/utils";
-import { redirect, useRouter } from "next/navigation";
+// @ts-ignore
+import { html as parseHTML } from "pdf2html";
 
-function AddExtensionArticle({ params }: { params: { slug: string } }) {
-  const { slug } = params;
-
+function AddExtensionArticle() {
   const preview = useRef(null);
   const titleRef = useRef(null);
   const slugRef = useRef(null);
   const fileRef = useRef(null);
   const imageRef = useRef(null);
 
-  const [title, setTitle] = useState("");
-  const [inputSlug, setInputSlug] = useState("");
-  const [article, setArticle] = useState<any>(null);
-
-  const router = useRouter();
-
-  useEffect(() => {
-    if (slug) {
-      fetch(`/api/extension-article/${slug}`)
-        .then((res) => res.json())
-        .then((data) => {
-          setArticle(data);
-        });
-    }
-  }, [slug]);
-
-  useEffect(() => {
-    if (!article) return;
-
-    const { title, slug, content } = article;
-    // @ts-ignore
-    titleRef.current!.value = title;
-    // @ts-ignore
-    slugRef.current!.value = slug;
-
-    setHtml(content);
-  }, [article]);
-
   const [html, setHtml] = useState("");
   const [messages, setMessages] = useState<any>();
-  const [isAddingArticle, setIsAddingArticle] = useState(false);
+  const [isAddingResearch, setIsAddingResearch] = useState(false);
 
   async function previewArticle() {
     const fileElement = fileRef.current! as HTMLInputElement;
@@ -97,32 +68,6 @@ function AddExtensionArticle({ params }: { params: { slug: string } }) {
     });
   }
 
-  async function handlePatch(body: any) {
-    const res = await fetch(`/api/extension-article/${slug}`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(body),
-    });
-
-    const dataRes = await res.json();
-    console.log(dataRes);
-
-    if (dataRes.success) {
-      toast.success("Article added successfully");
-      setIsAddingArticle(false);
-
-      router.push("/admin/extension-article");
-    }
-
-    if (dataRes.error) {
-      toast.error(dataRes.error);
-    }
-    setIsAddingArticle(false);
-    return false;
-  }
-
   async function handleSubmit(e: any) {
     e.preventDefault();
 
@@ -139,8 +84,6 @@ function AddExtensionArticle({ params }: { params: { slug: string } }) {
     let slug = data.get("slug") as any;
     const image = data.get("image") as File;
 
-    let isImageChanged = false;
-    let isContentChanged = false;
     let hasError = false;
 
     slug = slug?.toString().trim();
@@ -151,24 +94,12 @@ function AddExtensionArticle({ params }: { params: { slug: string } }) {
       return;
     }
 
-    if (file.size !== 0) {
-      isContentChanged = true;
-      // && !file.type.includes("pdf")
-      if (!file.type.includes("document")) {
-        fileElement.classList.add("border-red-500");
-        hasError = true;
-      } else {
-        fileElement.classList.remove("border-red-500");
-      }
-    }
-    if (image.size !== 0) {
-      isImageChanged = true;
-      if (!image.type.includes("image")) {
-        imageElement.classList.add("border-red-500");
-        hasError = true;
-      } else {
-        imageElement.classList.remove("border-red-500");
-      }
+    //  && !file.type.includes("pdf")
+    if (!file.type.includes("document")) {
+      fileElement.classList.add("border-red-500");
+      hasError = true;
+    } else {
+      fileElement.classList.remove("border-red-500");
     }
 
     if (title === "") {
@@ -185,6 +116,13 @@ function AddExtensionArticle({ params }: { params: { slug: string } }) {
       slugElement.classList.remove("border-red-500");
     }
 
+    if (!image.type.includes("image")) {
+      imageElement.classList.add("border-red-500");
+      hasError = true;
+    } else {
+      imageElement.classList.remove("border-red-500");
+    }
+
     if (image.size > 1000000) {
       imageElement.classList.add("border-red-500");
       hasError = true;
@@ -194,64 +132,84 @@ function AddExtensionArticle({ params }: { params: { slug: string } }) {
 
     if (hasError) return toast.error("Please fill all the fields");
 
-    setIsAddingArticle(true);
+    const formDataToBeSubmitted = new FormData();
 
-    if (!isContentChanged && !isImageChanged) {
-      const body = {
-        title,
-        slug,
+    if (file.type.includes("document")) {
+      setIsAddingResearch(true);
+      const fileReader = new FileReader();
+      fileReader.readAsArrayBuffer(file as Blob);
+
+      fileReader.onload = async (e) => {
+        const arrayBuffer = e.target?.result;
+        const options = {};
+
+        try {
+          // @ts-ignore
+          const result = await mammoth.convertToHtml({ arrayBuffer }, options);
+          const html = result.value; // The generated HTML
+          const messages = result.messages; // Any messages, such as warnings during conversion
+
+          const imageString = await convertToBase64(image);
+
+          formDataToBeSubmitted.set("slug", slug);
+          formDataToBeSubmitted.set("title", title as string);
+          formDataToBeSubmitted.set("image", imageString as string);
+          formDataToBeSubmitted.set("content", html as string);
+
+          const res = await fetch("/api/research", {
+            method: "POST",
+            body: formDataToBeSubmitted,
+          });
+
+          const dataRes = await res.json();
+
+          if (dataRes.success) {
+            toast.success("Article added successfully");
+            form.reset();
+            setHtml("");
+          }
+
+          if (dataRes.error) {
+            toast.error(dataRes.error);
+          }
+          setIsAddingResearch(false);
+        } catch (error) {
+          console.log(error);
+          toast.error("Something went wrong");
+        }
       };
-      await handlePatch(body);
     }
+    // } else if (file.type.includes("pdf")) {
+    //   const imageString = await convertToBase64(image);
+    //   data.set("file", file as File);
+    //   data.set("slug", slug);
+    //   data.set("title", title as string);
+    //   data.set("image", imageString as string);
 
-    if (!isContentChanged && isImageChanged) {
-      const imageString = await convertToBase64(image);
+    //   const res = await fetch("/api/extension-article", {
+    //     method: "POST",
+    //     body: data,
+    //   });
 
-      const body = {
-        title,
-        slug,
-        image: imageString,
-      };
-      await handlePatch(body);
-      return;
-    }
+    //   const dataRes = await res.json();
 
-    const fileReader = new FileReader();
-    fileReader.readAsArrayBuffer(file as Blob);
+    //   if (dataRes.success) {
+    //     toast.success("Article added successfully");
+    //     form.reset();
+    //     setHtml("");
+    //   }
 
-    fileReader.onload = async (e) => {
-      const arrayBuffer = e.target?.result;
-      const options = {};
-
-      try {
-        // @ts-ignore
-        const result = await mammoth.convertToHtml({ arrayBuffer }, options);
-        const html = result.value; // The generated HTML
-        const messages = result.messages; // Any messages, such as warnings during conversion
-
-        const imageString = isImageChanged
-          ? await convertToBase64(image)
-          : article.image;
-
-        const body = {
-          title,
-          slug,
-          content: html,
-          image: imageString,
-        };
-
-        await handlePatch(body);
-      } catch (error) {
-        console.log(error);
-        toast.error("Something went wrong");
-      }
-    };
+    //   if (dataRes.error) {
+    //     toast.error(dataRes.error);
+    //   }
+    //   setIsAddingArticle(false);
+    // }
   }
 
   return (
-    <section className="">
+    <section>
       <div className="flex justify-between items-center">
-        <h1 className="text-3xl font-bold mb-8">Edit Extension Article</h1>
+        <h1 className="text-3xl font-bold mb-8">Add Research</h1>
       </div>
       <form className="w-full" onSubmit={handleSubmit}>
         <div className="flex flex-wrap -mx-3">
@@ -267,7 +225,7 @@ function AddExtensionArticle({ params }: { params: { slug: string } }) {
               id="title"
               type="text"
               name="title"
-              placeholder="e.g. Article about our club"
+              placeholder="e.g. some title"
               ref={titleRef}
             />
           </div>
@@ -286,7 +244,7 @@ function AddExtensionArticle({ params }: { params: { slug: string } }) {
               id="slug"
               type="text"
               name="slug"
-              placeholder="e.g. article-about-our-club"
+              placeholder="e.g. a-long-slug-example"
               ref={slugRef}
             />
           </div>
@@ -305,7 +263,8 @@ function AddExtensionArticle({ params }: { params: { slug: string } }) {
               type="file"
               placeholder="file"
               name="file"
-              accept=".pdf,.docx"
+              // accept=".pdf,.docx"
+              accept=".docx"
               ref={fileRef}
             />
           </div>
@@ -339,11 +298,11 @@ function AddExtensionArticle({ params }: { params: { slug: string } }) {
           Preview
         </button>
         <button
-          disabled={isAddingArticle}
+          disabled={isAddingResearch}
           className={`ml-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition inline-flex items-center gap-2 disabled:opacity-75 disabled:hover:bg-blue-500`}
         >
-          Edit article
-          {isAddingArticle && (
+          Add Research
+          {isAddingResearch && (
             <FaSpinner className="inline-block animate-spin" />
           )}
         </button>

@@ -2,18 +2,18 @@ import Link from "next/link";
 import { FaPlus } from "react-icons/fa";
 import Items from "./Items";
 
-async function Publications() {
-  const url = process.env.URL! + "/api/publication/";
+async function Research() {
+  const url = process.env.URL! + "/api/research/";
 
   return (
     <div className="w-full">
       <div className="flex justify-between items-center flex-wrap mb-10">
-        <h1 className="text-3xl font-bold py-4">Publications</h1>
+        <h1 className="text-3xl font-bold py-4">Research</h1>
         <Link
-          href="/admin/publications/add"
+          href="/admin/research/add"
           className="flex items-center gap-2 px-4 py-2 text-white bg-blue-500 rounded-md hover:bg-blue-600"
         >
-          Add Publication <FaPlus />
+          Add Research <FaPlus />
         </Link>
       </div>
       <Items url={url} />
@@ -21,4 +21,4 @@ async function Publications() {
   );
 }
 
-export default Publications;
+export default Research;
