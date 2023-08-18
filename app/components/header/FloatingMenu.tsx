@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction } from "react";
 import Menu from "./Menu";
-import SearchBox from "./SearchBox";
+// import SearchBox from "./SearchBox";
 
 const FloatingMenu = ({
   isVisible,
@@ -17,7 +17,7 @@ const FloatingMenu = ({
         isVisible ? "left-0" : "left-full"
       }`}
     >
-      <SearchBox className="mt-12" />
+      {/* <SearchBox className="mt-12" /> */}
       <Menu
         direction="column"
         className="mt-8 gap-3"

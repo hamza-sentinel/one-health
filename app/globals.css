@@ -20,7 +20,11 @@
 /* Write styles for all elements that can come inside an blog post */
 
 .blog {
-  @apply mx-auto leading-normal text-lg max-w-prose;
+  @apply mx-auto leading-normal text-lg;
+}
+
+.blog * {
+  @apply max-w-prose;
 }
 
 .blog h1 {

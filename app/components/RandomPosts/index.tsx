@@ -1,29 +1,34 @@
-import { getData } from "@/app/utils";
-import Image from "next/image";
+"use client";
+
+import { getDataSingle } from "@/app/utils";
 import Link from "next/link";
+import Image from "next/image";
+import { useEffect, useState } from "react";
 
-async function getPublication() {
-  return await getData(process.env.URL + "/api/publication");
-}
+function Random({ url }: { url: string }) {
+  const [items, setItems] = useState<any>();
 
-async function Publication() {
-  const publications = await getPublication();
+  useEffect(() => {
+    getDataSingle(url + "/api/random-posts").then((data) => setItems(data));
+  }, [url]);
+
+  useEffect(() => {
+    console.log(items);
+  }, [items]);
+
   return (
-    <main className="container">
-      <section>
-        <h1 className="text-4xl text-gray-900 font-bold mt-2">
-          Our Publications
-        </h1>
-        {publications.length === 0 && (
-          <div className="text-lg mt-6 h-96">No publications found</div>
-        )}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-6 items-start">
-          {publications.map(
+    <>
+      <h2>Read more...</h2>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6">
+        {items &&
+          items.success &&
+          items.data.map(
             (item: {
               _id: string;
               title: string;
               slug: string;
               image: string;
+              type: string;
             }) => (
               <article
                 key={item._id}
@@ -33,7 +38,7 @@ async function Publication() {
                   src={item.image}
                   width={100}
                   height={100}
-                  alt="Publication Image"
+                  alt="Research Image"
                   className="w-full h-48 object-cover"
                 />
                 <div
@@ -44,7 +49,8 @@ async function Publication() {
                     {item.title}
                   </h2>
                   <Link
-                    href={`/publications/${item.slug}`}
+                    href={`/${item.type}/${item.slug}`}
+                    style={{ color: "white" }}
                     className="bg-blue-500 px-4 py-2 mb-2 justify-self-end mt-auto text-white rounded-md hover:bg-blue-600"
                   >
                     Read more
@@ -53,10 +59,9 @@ async function Publication() {
               </article>
             )
           )}
-        </div>
-      </section>
-    </main>
+      </div>
+    </>
   );
 }
 
-export default Publication;
+export default Random;

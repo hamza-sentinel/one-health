@@ -45,7 +45,7 @@ function Item({
                 <Link
                   href={link}
                   key={i}
-                  className=" text-blue-700 underline underline-offset-4 p-2 rounded transition hover:bg-blue-100"
+                  className="text-blue-700 underline underline-offset-4 p-2 rounded transition hover:bg-blue-100"
                 >
                   {link}
                 </Link>

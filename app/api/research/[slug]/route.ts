@@ -61,13 +61,13 @@ export async function GET(
   const { slug } = params;
 
   await connectToMongoDB();
-  let publication = await Research.findOne({ slug });
-  if (!publication) {
+  let research = await Research.findOne({ slug });
+  if (!research) {
     return NextResponse.json({
       error: true,
       status: 404,
       message: "Research not found",
     });
   }
-  return NextResponse.json(publication);
+  return NextResponse.json(research);
 }

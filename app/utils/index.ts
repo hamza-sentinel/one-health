@@ -29,3 +29,13 @@ export async function getData(url: string) {
   }
   return data;
 }
+
+export async function getDataSingle(url: string) {
+  const response = await fetch(url, {
+    next: {
+      revalidate: 0, // 1 minutes
+    },
+  });
+  const data = await response.json();
+  return data;
+}

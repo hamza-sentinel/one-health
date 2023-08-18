@@ -1,7 +1,7 @@
 "use client";
 
 import Logo from "./Logo";
-import SearchBox from "./SearchBox";
+// import SearchBox from "./SearchBox";
 import Menu from "./Menu";
 import Hamburger from "./Hamburger";
 import { useState } from "react";
@@ -24,7 +24,7 @@ export default function Header() {
           className="sm:hidden"
           setMenuOpen={setOpenMenu}
         />
-        <SearchBox className="hidden sm:flex" inputClass="bg-gray-200" />
+        {/* <SearchBox className="hidden sm:flex" inputClass="bg-gray-200" /> */}
         <Menu
           direction="row"
           className="hidden sm:flex gap-3"
