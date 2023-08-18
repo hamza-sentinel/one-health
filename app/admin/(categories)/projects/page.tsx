@@ -1,6 +1,6 @@
 import Header from "@/app/admin/components/Header";
 import Content from "./Content";
-import { convertToBase64 } from "../../utils";
+import { convertToBase64 } from "../../../utils";
 import { toast } from "react-toastify";
 
 async function Projects() {

@@ -7,7 +7,7 @@ import { FaPlus } from "react-icons/fa";
 import CustomModal from "../../components/CustomFormModal";
 import { ToastContainer, toast } from "react-toastify";
 import Field from "../../@types/Field";
-import { convertToBase64 } from "../../utils";
+import { convertToBase64 } from "../../../utils";
 
 const Content = ({
   url,

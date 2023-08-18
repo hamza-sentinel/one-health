@@ -9,7 +9,7 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { getData } from "../../utils";
+import { getData } from "../../../utils";
 import { FaSpinner } from "react-icons/fa";
 
 function Items({ url, itemAdded }: { url: string; itemAdded: boolean }) {

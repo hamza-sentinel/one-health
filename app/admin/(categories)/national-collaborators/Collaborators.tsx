@@ -11,7 +11,7 @@ import Paper from "@mui/material/Paper";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { set } from "mongoose";
-import { convertToBase64, getData } from "../../utils";
+import { convertToBase64, getData } from "../../../utils";
 import { FaSpinner } from "react-icons/fa";
 
 function Collaborators({
