@@ -13,7 +13,7 @@ import { convertToBase64, getData } from "../../../utils";
 import { FaSpinner } from "react-icons/fa";
 
 function Items({ url }: { url: string }) {
-  const [items, setItems] = useState([]);
+  const [items, setItems] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [tableChanged, setTableChanged] = useState(false);
   const [fieldLoading, setFieldLoading] = useState(false);
@@ -25,16 +25,7 @@ function Items({ url }: { url: string }) {
     }
     getData(url)
       .then((items) => {
-        setItems(
-          items.map((item: any) => {
-            return {
-              title: item.title,
-              slug: item.slug,
-              _id: item._id,
-              image: item.image,
-            };
-          })
-        );
+        setItems(items);
         setIsLoading(false);
         setFieldLoading(false);
       })

@@ -13,7 +13,7 @@ import { convertToBase64, getData } from "../../../utils";
 import { FaSpinner } from "react-icons/fa";
 
 function Items({ url }: { url: string }) {
-  const [items, setItems] = useState([]);
+  const [items, setItems] = useState<any[]>();
   const [isLoading, setIsLoading] = useState(true);
   const [tableChanged, setTableChanged] = useState(false);
   const [fieldLoading, setFieldLoading] = useState(false);
@@ -25,16 +25,7 @@ function Items({ url }: { url: string }) {
     }
     getData(url)
       .then((items) => {
-        setItems(
-          items.map((item: any) => {
-            return {
-              title: item.title,
-              slug: item.slug,
-              _id: item._id,
-              image: item.image,
-            };
-          })
-        );
+        setItems(items);
         setIsLoading(false);
         setFieldLoading(false);
       })
@@ -60,7 +51,7 @@ function Items({ url }: { url: string }) {
     toast.success(data.message);
     setTableChanged(!tableChanged);
 
-    setItems(() => items.filter((c: any) => c.slug !== slug));
+    setItems(() => items?.filter((c: any) => c.slug !== slug));
   }
 
   async function handleEdit(e: any, id: string) {
@@ -158,14 +149,14 @@ function Items({ url }: { url: string }) {
                 </td>
               </tr>
             )}
-            {items.length === 0 && !isLoading && !hasError ? (
+            {items?.length === 0 && !isLoading && !hasError ? (
               <tr>
                 <td colSpan={10} className="text-center text-2xl py-6">
                   There are no news
                 </td>
               </tr>
             ) : (
-              items.map((item: any, index: number) => (
+              items?.map((item: any, index: number) => (
                 <Item item={item} key={item._id} onDelete={handleDelete} />
               ))
             )}

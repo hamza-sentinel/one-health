@@ -21,7 +21,7 @@ function Collaborators({
   url: string;
   itemAdded: boolean;
 }) {
-  const [collaborators, setCollaborators] = useState([]);
+  const [collaborators, setCollaborators] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [tableChanged, setTableChanged] = useState(false);
   const [fieldLoading, setFieldLoading] = useState(false);
