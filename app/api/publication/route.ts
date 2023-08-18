@@ -4,11 +4,20 @@ import { writeFile } from "fs/promises";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
-  await connectToMongoDB();
-  const publications = await Publication.find();
-  if (!true) return NextResponse.json(publications);
-  else {
-    return NextResponse.json(publications);
+  try {
+    await connectToMongoDB();
+    const publications = await Publication.find(
+      {},
+      {
+        content: 0,
+      }
+    );
+    if (!true) return NextResponse.json(publications);
+    else {
+      return NextResponse.json(publications);
+    }
+  } catch (error) {
+    return NextResponse.json({ error });
   }
 }
 

@@ -3,10 +3,13 @@ import connectToMongoDB from "@/app/utils/mongodb";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
-  await connectToMongoDB();
-  // console.log("international:", request.url.split("?").slice(1));
-  const internationalCollaborator = await InternationalCollaborator.find();
-  return NextResponse.json(internationalCollaborator);
+  try {
+    await connectToMongoDB();
+    const internationalCollaborator = await InternationalCollaborator.find();
+    return NextResponse.json(internationalCollaborator);
+  } catch (error) {
+    return NextResponse.json({ error });
+  }
 }
 
 export async function POST(request: NextRequest) {

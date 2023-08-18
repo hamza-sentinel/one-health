@@ -3,9 +3,13 @@ import connectToMongoDB from "@/app/utils/mongodb";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
-  await connectToMongoDB();
-  const news = await News.find();
-  return NextResponse.json(news);
+  try {
+    await connectToMongoDB();
+    const news = await News.find();
+    return NextResponse.json(news);
+  } catch (error) {
+    return NextResponse.json({ error });
+  }
 }
 
 export async function POST(request: NextRequest) {
