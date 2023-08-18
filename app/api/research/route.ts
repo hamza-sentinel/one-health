@@ -5,10 +5,32 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
   await connectToMongoDB();
-  const research = await Research.find();
-  if (!true) return NextResponse.json(research);
-  else {
+
+  const queries = request.url
+    .split("?")
+    .slice(1)
+    .join("")
+    .split("&")
+    .map((query) => {
+      const [key, value] = query.split("=");
+      return { [key]: parseInt(value) };
+    });
+
+  const page = queries.find((query) => query.page)?.page || 0;
+  const limit = 5;
+
+  try {
+    const research = await Research.find(
+      {},
+      {
+        content: 0,
+      }
+    )
+      .skip(page * limit)
+      .limit(limit);
     return NextResponse.json(research);
+  } catch (error) {
+    return NextResponse.json({ error: true, message: error });
   }
 }
 

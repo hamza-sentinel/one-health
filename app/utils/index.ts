@@ -14,11 +14,18 @@ export function convertToBase64(
 }
 
 export async function getData(url: string) {
-  const response = await fetch(url, {
-    next: {
-      revalidate: 60, // 1 minute
-    },
-  });
-  const data = await response.json();
+  const { count } = await fetch(url + "/getCount").then((res) => res.json());
+
+  const pages = Math.ceil(count / 5);
+
+  let data: any[] = [];
+  for (let i = 0; i < pages; i++) {
+    const response = await fetch(url + `?page=${i}`, {
+      next: {
+        revalidate: 60, // 1 minute
+      },
+    });
+    data = [...data, ...(await response.json())];
+  }
   return data;
 }
