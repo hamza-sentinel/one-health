@@ -5,19 +5,19 @@ export default function ShowCase() {
     {
       title: "Our Vision",
       description:
-        "Lorem, ipsum dolor sit amet consectetur adipisicing elit. A dolores ad accusamus, possimus totam velit placeat in rerum quia, quisquam sint excepturi accusantium consectetur incidunt est non libero quae recusandae. Nisi, sapiente ea. Dolorum, ex?",
+        "The Molecular Parasitology & One Health Laboratory envisions itself as a leading force in deciphering the molecular underpinnings of parasitic diseases that afflict both animals and humans. We strive to be at the forefront of scientific discovery, unraveling the intricate mechanisms employed by parasites to establish and maintain infections. Through our research, we aim to contribute significantly to a deeper understanding of these complex diseases.",
       image: "/vision.jpg",
     },
     {
       title: "Our Mission",
       description:
-        "Lorem, ipsum dolor sit amet consectetur adipisicing elit. A dolores ad accusamus, possimus totam velit placeat in rerum quia, quisquam sint excepturi accusantium consectetur incidunt est non libero quae recusandae. Nisi, sapiente ea. Dolorum, ex?",
+        "Our mission is to drive innovative research that delves into the molecular epidemiology of parasitic diseases. By focusing on this approach, we aim to revolutionize the way we diagnose and treat these infections. We are committed to developing novel diagnostic tools that enable rapid and accurate detection, paving the way for improved patient outcomes. Furthermore, our research seeks to identify and evaluate the effectiveness of existing and emerging therapeutic strategies, ultimately aiming to achieve control and ultimately prevent parasitic diseases in both animals and humans.",
       image: "/mission.jpg",
     },
     {
       title: "Objectives",
       description:
-        "Lorem, ipsum dolor sit amet consectetur adipisicing elit. A dolores ad accusamus, possimus totam velit placeat in rerum quia, quisquam sint excepturi accusantium consectetur incidunt est non libero quae recusandae. Nisi, sapiente ea. Dolorum, ex?",
+        "To achieve our ambitious mission, we prioritize a clear set of objectives. We're dedicated to uncovering the Achilles' heels of parasites – those key molecules vital for their survival and spread. This knowledge will pave the way for targeted interventions, ultimately weakening their grip on both animals and humans.  Alongside this, we're committed to developing rapid and reliable diagnostic tools. Faster and more accurate detection translates to improved disease management and better patient outcomes.",
       image: "/objective.jpg",
     },
   ];

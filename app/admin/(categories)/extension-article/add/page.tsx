@@ -87,7 +87,6 @@ function AddExtensionArticle() {
     let hasError = false;
 
     slug = slug?.toString().trim();
-
     if (slug.includes(" ")) {
       slugElement.classList.add("border-red-500");
       toast.error("Slug cannot contain spaces");
@@ -160,8 +159,10 @@ function AddExtensionArticle() {
             method: "POST",
             body: formDataToBeSubmitted,
           });
+          console.log("Res", res);
 
           const dataRes = await res.json();
+          console.log("Data res is here:", dataRes);
 
           if (dataRes.success) {
             toast.success("Article added successfully");
@@ -174,8 +175,11 @@ function AddExtensionArticle() {
           }
           setIsAddingArticle(false);
         } catch (error) {
+          console.error(error);
+          console.dir(error);
           console.log(error);
           toast.error("Something went wrong");
+          setIsAddingArticle(false);
         }
       };
     }
